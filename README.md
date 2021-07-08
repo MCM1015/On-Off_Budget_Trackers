@@ -24,7 +24,7 @@
       npm i
       
   ## Usage
-  Do a git pull, after installing dependencies run npm start and open on local port. You have the option to download the app. App also available on [Heroku](https://x).
+  Do a git pull, after installing dependencies run npm start and open on local port. You have the option to download the app. App also available on [Heroku](https://stormy-ravine-62794.herokuapp.com/).
 
    Website Preview:
 
