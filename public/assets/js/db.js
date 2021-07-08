@@ -2,7 +2,7 @@ let db;
 let budgetVersion;
 
 // Create a new db request for a "budget" database.
-const request = indexedDB.open('BudgetDB', budgetVersion || 5);
+const request = indexedDB.open('BudgetDB', budgetVersion || 23);
 
 request.onupgradeneeded = function (e) {
   console.log('Upgrade needed in IndexDB');
@@ -14,9 +14,9 @@ request.onupgradeneeded = function (e) {
 
   db = e.target.result;
 
-  if (db.objectStoreNames.length === 0) {
+ 
     db.createObjectStore('Budget', { autoIncrement: true });
-  }
+
 };
 
 request.onerror = function (e) {

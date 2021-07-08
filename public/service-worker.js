@@ -1,11 +1,9 @@
 const FILES_TO_CACHE = [
+  "/",
   "/index.html",
-  "/assets/css/style.css",
-  "/dist/app.bundle.js",
-  "/dist/db.bundle.js",
-  "/dist/manifest.json",
-  "/assets/images/icons/icon-192x192.png",
-  "/assets/images/icons/icon-512x512.png"
+  "/assets/css/styles.css",
+  "/assets/js/index.js",
+  "/assets/js/db.js",
 ];
 
 
@@ -46,22 +44,22 @@ self.addEventListener("activate", event => {
 
 self.addEventListener("fetch", event => {
   // non GET requests are not cached and requests to other origins are not cached
-  if (
-    event.request.method !== "GET" ||
-    !event.request.url.startsWith(self.location.origin)
-  ) {
-    event.respondWith(fetch(event.request));
-    return;
-  }
+  // if (
+  //   event.request.method !== "GET" ||
+  //   !event.request.url.startsWith(self.location.origin)
+  // ) {
+  //   event.respondWith(fetch(event.request));
+  //   return;
+  // }
 
   // handle runtime GET requests for data from /api routes
-  if (event.request.url.includes("/api/images")) {
+  if (event.request.url.includes("/api/")) {
     // make network request and fallback to cache if network request fails (offline)
     event.respondWith(
       caches.open(RUNTIME_CACHE).then(cache => {
         return fetch(event.request)
           .then(response => {
-            cache.put(event.request, response.clone());
+            cache.put(event.request.url, response.clone());
             return response;
           })
           .catch(() => caches.match(event.request));
@@ -80,7 +78,7 @@ self.addEventListener("fetch", event => {
       // request is not in cache. make network request and cache the response
       return caches.open(RUNTIME_CACHE).then(cache => {
         return fetch(event.request).then(response => {
-          return cache.put(event.request, response.clone()).then(() => {
+          return cache.put(event.request.url, response.clone()).then(() => {
             return response;
           });
         });
